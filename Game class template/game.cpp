@@ -15,6 +15,8 @@ Game::Game(): mWindow(nullptr), mRenderer(nullptr), mTicksCount(0), mIsRunning(t
     mBallPos.y=Height/2;
     mTicksCount=0;
     mPaddleDir=0;
+    mBallVel.x=-200.0f;
+    mBallVel.y=235.0f;
 }
 bool Game::Initialize(){
     int	sdlResult	=	SDL_Init(SDL_INIT_VIDEO);
@@ -94,7 +96,6 @@ void Game::UpdateGame(){
     }
     if (mPaddleDir != 0){
         mPaddlePosP1.y += mPaddleDir * 300.0f * deltaTime;
-        std::cout<<mPaddlePosP1.y<<std::endl;
         if (mPaddlePosP1.y < (paddleH/2.0f + thickness)){
             mPaddlePosP1.y = paddleH/2.0f + thickness;
         }
@@ -102,6 +103,25 @@ void Game::UpdateGame(){
             mPaddlePosP1.y = Height - paddleH/2.0f - thickness;
         }
     }
+
+    mBallPos.x += mBallVel.x * deltaTime;
+    mBallPos.y += mBallVel.y * deltaTime;
+    if (mBallPos.y <= (3/2)*thickness or mBallPos.y>=Height-(3/2)*thickness){
+        mBallVel.y *= -1;
+    }
+    if (mBallPos.x >= Width-(3/2)*thickness){
+        mBallVel.x *= -1;
+    }
+    float diff = mPaddlePosP1.y - mBallPos.y;
+    if (abs(diff) <= paddleH / 2.0f && mBallPos.x <= 25.0f && mBallPos.x >= 20.0f && mBallVel.x < 0.0f){
+        std::cout<<diff<<std::endl;
+        mBallVel.x *= -1.0f;
+    }
+    if (mBallPos.x<=0){
+        std::cout<<"Perdiste";
+        exit(1);
+    }
+
 }
 
 void Game::GenerateOutput(){
@@ -142,6 +162,15 @@ void Game::GenerateOutput(){
         paddleH
 	};
 	SDL_RenderFillRect(mRenderer, &paddleP1);  
+    
+
+    SDL_Rect ball{
+		static_cast<int>(mBallPos.x),
+		static_cast<int>(mBallPos.y),
+		20,
+        thickness
+	};
+	SDL_RenderFillRect(mRenderer, &ball);  
     SDL_RenderPresent(mRenderer);
 
     

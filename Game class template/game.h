@@ -34,6 +34,7 @@ class Game{
 
     // Position of the ball
     Vector2 mBallPos;    
+	Vector2 mBallVel;
 
 };
 
