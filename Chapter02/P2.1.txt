@@ -1,0 +1,10 @@
+Pregunta 2:
+2.1) Una clase que contenga todas las similitudes entre todos estos objetos
+(las cuales serian pocas).
+
+2.2) Se podrían crear unas abstractas que engloben a ciertos grupos de objetos.
+Por ejemplo: clases vehiculo, planta y animal. De aqui se heredarian las clases
+mas específicas y se implementaría lo que se necesite.
+
+2.3) La segunda manera es la más conveniente, ya que es lo adecuado al momento
+de trabajar con varias clases que tienen similitudes.
